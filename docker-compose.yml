@@ -20,7 +20,7 @@ services:
     image: maven:3.9-eclipse-temurin-21
     container_name: entorno_programacion_pagos
     ports:
-      - "8089:8080"
+      - "8089:8089"
     depends_on:
       - db-pagos-servicio
     networks:
