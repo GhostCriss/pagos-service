@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  db-pagos-servicio:
+    image: mysql:8.0
+    container_name: mysql_pagos
+    environment:
+      MYSQL_ROOT_PASSWORD: clave_maestra_root
+      MYSQL_DATABASE: db_amazorg_pagos
+      MYSQL_USER: desarrollador
+      MYSQL_PASSWORD: password_seguro_123
+    ports:
+      - "3315:3306"
+    networks:
+      - red_interna_pagos
+    volumes:
+      - persistencia_db_pagos:/var/lib/mysql
+
+  workspace-java-pagos:
+    image: maven:3.9-eclipse-temurin-21
+    container_name: entorno_programacion_pagos
+    ports:
+      - "8089:8080"
+    depends_on:
+      - db-pagos-servicio
+    networks:
+      - red_interna_pagos
+    command: tail -f /dev/null
+    volumes:
+      - ./codigo-fuente:/app
+    working_dir: /app
+
+networks:
+  red_interna_pagos:
+
+volumes:
+  persistencia_db_pagos:
